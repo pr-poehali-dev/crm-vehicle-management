@@ -9,8 +9,8 @@ interface LoginFormProps {
 
 const LoginForm = ({ onLogin }: LoginFormProps) => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-background">
-      <Card className="w-full max-w-md shadow-2xl border-primary/20">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <Card className="w-full max-w-md shadow-2xl border-border">
         <CardHeader className="space-y-1">
           <CardTitle className="text-3xl text-center font-bold">CRM Автопарк</CardTitle>
           <CardDescription className="text-center">Войдите для доступа к системе</CardDescription>
