@@ -1,6 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
-import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface DashboardProps {
   vehiclesCount: number;
@@ -8,19 +7,6 @@ interface DashboardProps {
 }
 
 const Dashboard = ({ vehiclesCount, clientsCount }: DashboardProps) => {
-  const vehiclesByYear = [
-    { year: '2020', count: 2 },
-    { year: '2021', count: 5 },
-    { year: '2022', count: 8 },
-    { year: '2023', count: 12 }
-  ];
-
-  const categoryData = [
-    { name: 'Легковой', value: 15, color: '#FBBF24' },
-    { name: 'Грузовой', value: 8, color: '#F59E0B' },
-    { name: 'Специальный', value: 4, color: '#D97706' }
-  ];
-
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
@@ -59,54 +45,6 @@ const Dashboard = ({ vehiclesCount, clientsCount }: DashboardProps) => {
           <CardContent>
             <div className="text-3xl font-bold">0</div>
             <p className="text-xs text-muted-foreground mt-1">На текущий момент</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Динамика поступления автомобилей</CardTitle>
-            <CardDescription>По годам выпуска</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={vehiclesByYear}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="year" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="#FBBF24" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Распределение по категориям</CardTitle>
-            <CardDescription>Типы транспортных средств</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={categoryData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={(entry) => entry.name}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {categoryData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
