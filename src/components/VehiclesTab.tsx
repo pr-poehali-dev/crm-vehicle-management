@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import Icon from '@/components/ui/icon';
@@ -23,6 +24,7 @@ interface VehiclesTabProps {
 const VehiclesTab = ({ vehicles, newVehicle, userRole, onVehicleChange, onAddVehicle, onDeleteVehicle, onUpdateVehicle }: VehiclesTabProps) => {
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [deleteVehicleId, setDeleteVehicleId] = useState<string | null>(null);
 
   const handleEditClick = (vehicle: Vehicle) => {
     setEditingVehicle({ ...vehicle });
@@ -34,6 +36,13 @@ const VehiclesTab = ({ vehicles, newVehicle, userRole, onVehicleChange, onAddVeh
       onUpdateVehicle(editingVehicle.id, editingVehicle);
       setIsEditDialogOpen(false);
       setEditingVehicle(null);
+    }
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteVehicleId) {
+      onDeleteVehicle(deleteVehicleId);
+      setDeleteVehicleId(null);
     }
   };
   return (
@@ -241,7 +250,7 @@ const VehiclesTab = ({ vehicles, newVehicle, userRole, onVehicleChange, onAddVeh
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => onDeleteVehicle(vehicle.id)}
+                          onClick={() => setDeleteVehicleId(vehicle.id)}
                         >
                           <Icon name="Trash2" size={16} className="text-destructive" />
                         </Button>
@@ -401,6 +410,21 @@ const VehiclesTab = ({ vehicles, newVehicle, userRole, onVehicleChange, onAddVeh
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={!!deleteVehicleId} onOpenChange={() => setDeleteVehicleId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Удалить автомобиль?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Это действие нельзя отменить. Автомобиль будет удалён из системы.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm}>Удалить</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

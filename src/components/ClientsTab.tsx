@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import Icon from '@/components/ui/icon';
 import { Client } from '@/types/crm';
@@ -21,6 +22,7 @@ interface ClientsTabProps {
 const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient, onDeleteClient, onUpdateClient }: ClientsTabProps) => {
   const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [deleteClientId, setDeleteClientId] = useState<string | null>(null);
 
   const handleEditClick = (client: Client) => {
     setEditingClient({ ...client });
@@ -32,6 +34,13 @@ const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient,
       onUpdateClient(editingClient.id, editingClient);
       setIsEditDialogOpen(false);
       setEditingClient(null);
+    }
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteClientId) {
+      onDeleteClient(deleteClientId);
+      setDeleteClientId(null);
     }
   };
   return (
@@ -184,7 +193,7 @@ const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient,
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => onDeleteClient(client.id)}
+                          onClick={() => setDeleteClientId(client.id)}
                         >
                           <Icon name="Trash2" size={16} className="text-destructive" />
                         </Button>
@@ -293,6 +302,21 @@ const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient,
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={!!deleteClientId} onOpenChange={() => setDeleteClientId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Удалить клиента?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Это действие нельзя отменить. Клиент будет удалён из системы.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm}>Удалить</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

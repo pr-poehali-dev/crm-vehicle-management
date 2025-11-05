@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import Icon from '@/components/ui/icon';
 import { Employee } from '@/types/crm';
@@ -29,6 +30,7 @@ const EmployeesTab = ({
 }: EmployeesTabProps) => {
   const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [deleteEmployeeId, setDeleteEmployeeId] = useState<string | null>(null);
 
   const handleEditClick = (employee: Employee) => {
     setEditingEmployee({ ...employee });
@@ -40,6 +42,13 @@ const EmployeesTab = ({
       onUpdateEmployee(editingEmployee.id, editingEmployee);
       setIsEditDialogOpen(false);
       setEditingEmployee(null);
+    }
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteEmployeeId) {
+      onDeleteEmployee(deleteEmployeeId);
+      setDeleteEmployeeId(null);
     }
   };
   return (
@@ -151,7 +160,7 @@ const EmployeesTab = ({
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => onDeleteEmployee(employee.id)}
+                          onClick={() => setDeleteEmployeeId(employee.id)}
                         >
                           <Icon name="Trash2" size={18} />
                         </Button>
@@ -226,6 +235,21 @@ const EmployeesTab = ({
           )}
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={!!deleteEmployeeId} onOpenChange={() => setDeleteEmployeeId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Удалить сотрудника?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Это действие нельзя отменить. Сотрудник будет удалён из системы.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm}>Удалить</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
