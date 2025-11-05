@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Icon from '@/components/ui/icon';
+import { useState } from 'react';
 
 interface LoginFormProps {
   onLogin: (e: React.FormEvent) => void;
@@ -11,6 +12,7 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ onLogin, theme, onThemeChange }: LoginFormProps) => {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="min-h-screen flex items-center justify-center bg-background relative">
       <Button
@@ -34,7 +36,18 @@ const LoginForm = ({ onLogin, theme, onThemeChange }: LoginFormProps) => {
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Пароль</Label>
-              <Input id="password" type="password" placeholder="Введите пароль" required />
+              <div className="relative">
+                <Input id="password" type={showPassword ? "text" : "password"} placeholder="Введите пароль" required className="pr-10" />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <Icon name={showPassword ? "EyeOff" : "Eye"} size={18} className="text-muted-foreground" />
+                </Button>
+              </div>
             </div>
             <Button type="submit" className="w-full">Войти в систему</Button>
           </form>
