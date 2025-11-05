@@ -33,6 +33,13 @@ const EmployeesTab = ({
   const [deleteEmployeeId, setDeleteEmployeeId] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
+  const copyCredentials = () => {
+    if (newEmployee.username && newEmployee.password) {
+      const text = `Логин: ${newEmployee.username}\nПароль: ${newEmployee.password}`;
+      navigator.clipboard.writeText(text);
+    }
+  };
+
   const handleEditClick = (employee: Employee) => {
     setEditingEmployee({ ...employee });
     setIsEditDialogOpen(true);
@@ -177,6 +184,18 @@ const EmployeesTab = ({
                   </div>
                 </div>
               </div>
+
+              {newEmployee.username && newEmployee.password && (
+                <Button 
+                  type="button"
+                  variant="secondary" 
+                  onClick={copyCredentials} 
+                  className="w-full gap-2"
+                >
+                  <Icon name="Copy" size={18} />
+                  Скопировать логин и пароль
+                </Button>
+              )}
 
               <Button onClick={onAddEmployee} className="w-full">
                 Добавить сотрудника
