@@ -93,7 +93,7 @@ const Index = () => {
   };
 
   if (!isLoggedIn) {
-    return <LoginForm onLogin={handleLogin} />;
+    return <LoginForm onLogin={handleLogin} theme={theme} onThemeChange={setTheme} />;
   }
 
   return (
