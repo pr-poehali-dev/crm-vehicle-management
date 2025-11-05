@@ -27,105 +27,193 @@ const Index = () => {
     localStorage.setItem('crm-theme', theme);
   }, [theme]);
 
-  const [vehicles, setVehicles] = useState<Vehicle[]>([
-    {
-      id: '1',
-      brand: 'Toyota',
-      model: 'Camry',
-      name: 'Toyota Camry 2023',
-      category: 'Легковой',
-      year: 2023,
-      engineNumber: 'ABC123456',
-      chassis: 'CHAS789012',
-      bodyNumber: 'BODY345678',
-      color: 'Черный',
-      power: '249 (184)',
-      displacement: '2487',
-      engineType: 'Бензиновый',
-      ecoClass: 'Евро-5',
-      maxWeight: '2100'
-    }
-  ]);
-
-  const [clients, setClients] = useState<Client[]>([
-    {
-      id: '1',
-      lastName: 'Иванов',
-      firstName: 'Иван',
-      middleName: 'Иванович',
-      birthDate: '1985-05-15',
-      passportSeries: '4512',
-      passportNumber: '123456',
-      licenseSeries: '77АА',
-      licenseNumber: '123456',
-      licenseDate: '2005-06-20',
-      phone: '+79161234567'
-    }
-  ]);
-
-  const [employees, setEmployees] = useState<Employee[]>([
-    {
-      id: '1',
-      lastName: 'Петров',
-      firstName: 'Петр',
-      middleName: 'Петрович',
-      birthDate: '1990-03-20',
-      position: 'Менеджер'
-    }
-  ]);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
 
   const [newVehicle, setNewVehicle] = useState<Partial<Vehicle>>({});
   const [newClient, setNewClient] = useState<Partial<Client>>({});
   const [newEmployee, setNewEmployee] = useState<Partial<Employee>>({});
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      loadVehicles();
+      loadClients();
+      loadEmployees();
+    }
+  }, [isLoggedIn]);
+
+  const loadVehicles = async () => {
+    try {
+      const response = await fetch('https://functions.poehali.dev/33390ee1-85e0-4e3a-a705-e76898997167');
+      const data = await response.json();
+      setVehicles(data);
+    } catch (error) {
+      console.error('Error loading vehicles:', error);
+    }
+  };
+
+  const loadClients = async () => {
+    try {
+      const response = await fetch('https://functions.poehali.dev/38905dcd-16a6-4e12-a777-273ac686d65d');
+      const data = await response.json();
+      setClients(data);
+    } catch (error) {
+      console.error('Error loading clients:', error);
+    }
+  };
+
+  const loadEmployees = async () => {
+    try {
+      const response = await fetch('https://functions.poehali.dev/0e9c4f82-7ee1-4be0-9001-c56162996ffa');
+      const data = await response.json();
+      setEmployees(data);
+    } catch (error) {
+      console.error('Error loading employees:', error);
+    }
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoggedIn(true);
   };
 
-  const handleAddVehicle = () => {
+  const handleAddVehicle = async () => {
     if (newVehicle.brand && newVehicle.model) {
-      setVehicles([...vehicles, { ...newVehicle, id: Date.now().toString() } as Vehicle]);
-      setNewVehicle({});
+      try {
+        const response = await fetch('https://functions.poehali.dev/33390ee1-85e0-4e3a-a705-e76898997167', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newVehicle)
+        });
+        if (response.ok) {
+          await loadVehicles();
+          setNewVehicle({});
+        }
+      } catch (error) {
+        console.error('Error adding vehicle:', error);
+      }
     }
   };
 
-  const handleAddClient = () => {
+  const handleAddClient = async () => {
     if (newClient.lastName && newClient.firstName) {
-      setClients([...clients, { ...newClient, id: Date.now().toString() } as Client]);
-      setNewClient({});
+      try {
+        const response = await fetch('https://functions.poehali.dev/38905dcd-16a6-4e12-a777-273ac686d65d', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newClient)
+        });
+        if (response.ok) {
+          await loadClients();
+          setNewClient({});
+        }
+      } catch (error) {
+        console.error('Error adding client:', error);
+      }
     }
   };
 
-  const handleDeleteVehicle = (id: string) => {
-    setVehicles(vehicles.filter(v => v.id !== id));
+  const handleDeleteVehicle = async (id: string) => {
+    try {
+      const response = await fetch(`https://functions.poehali.dev/33390ee1-85e0-4e3a-a705-e76898997167?id=${id}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        await loadVehicles();
+      }
+    } catch (error) {
+      console.error('Error deleting vehicle:', error);
+    }
   };
 
-  const handleUpdateVehicle = (id: string, updatedVehicle: Vehicle) => {
-    setVehicles(vehicles.map(v => v.id === id ? updatedVehicle : v));
+  const handleUpdateVehicle = async (id: string, updatedVehicle: Vehicle) => {
+    try {
+      const response = await fetch('https://functions.poehali.dev/33390ee1-85e0-4e3a-a705-e76898997167', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedVehicle)
+      });
+      if (response.ok) {
+        await loadVehicles();
+      }
+    } catch (error) {
+      console.error('Error updating vehicle:', error);
+    }
   };
 
-  const handleDeleteClient = (id: string) => {
-    setClients(clients.filter(c => c.id !== id));
+  const handleDeleteClient = async (id: string) => {
+    try {
+      const response = await fetch(`https://functions.poehali.dev/38905dcd-16a6-4e12-a777-273ac686d65d?id=${id}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        await loadClients();
+      }
+    } catch (error) {
+      console.error('Error deleting client:', error);
+    }
   };
 
-  const handleUpdateClient = (id: string, updatedClient: Client) => {
-    setClients(clients.map(c => c.id === id ? updatedClient : c));
+  const handleUpdateClient = async (id: string, updatedClient: Client) => {
+    try {
+      const response = await fetch('https://functions.poehali.dev/38905dcd-16a6-4e12-a777-273ac686d65d', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedClient)
+      });
+      if (response.ok) {
+        await loadClients();
+      }
+    } catch (error) {
+      console.error('Error updating client:', error);
+    }
   };
 
-  const handleAddEmployee = () => {
+  const handleAddEmployee = async () => {
     if (newEmployee.lastName && newEmployee.firstName) {
-      setEmployees([...employees, { ...newEmployee, id: Date.now().toString() } as Employee]);
-      setNewEmployee({});
+      try {
+        const response = await fetch('https://functions.poehali.dev/0e9c4f82-7ee1-4be0-9001-c56162996ffa', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newEmployee)
+        });
+        if (response.ok) {
+          await loadEmployees();
+          setNewEmployee({});
+        }
+      } catch (error) {
+        console.error('Error adding employee:', error);
+      }
     }
   };
 
-  const handleDeleteEmployee = (id: string) => {
-    setEmployees(employees.filter(e => e.id !== id));
+  const handleDeleteEmployee = async (id: string) => {
+    try {
+      const response = await fetch(`https://functions.poehali.dev/0e9c4f82-7ee1-4be0-9001-c56162996ffa?id=${id}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        await loadEmployees();
+      }
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+    }
   };
 
-  const handleUpdateEmployee = (id: string, updatedEmployee: Employee) => {
-    setEmployees(employees.map(e => e.id === id ? updatedEmployee : e));
+  const handleUpdateEmployee = async (id: string, updatedEmployee: Employee) => {
+    try {
+      const response = await fetch('https://functions.poehali.dev/0e9c4f82-7ee1-4be0-9001-c56162996ffa', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedEmployee)
+      });
+      if (response.ok) {
+        await loadEmployees();
+      }
+    } catch (error) {
+      console.error('Error updating employee:', error);
+    }
   };
 
   if (!isLoggedIn) {
