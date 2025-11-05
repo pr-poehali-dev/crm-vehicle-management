@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 import { Employee } from '@/types/crm';
@@ -59,7 +60,7 @@ const EditEmployeeDialog = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="edit-birthDate">Дата рождения</Label>
                 <Input
@@ -76,6 +77,21 @@ const EditEmployeeDialog = ({
                   value={editingEmployee.position}
                   onChange={(e) => onEmployeeChange({ ...editingEmployee, position: e.target.value })}
                 />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-role">Роль</Label>
+                <Select
+                  value={editingEmployee.role || 'manager'}
+                  onValueChange={(value: 'admin' | 'manager') => onEmployeeChange({ ...editingEmployee, role: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Выберите роль" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="manager">Менеджер</SelectItem>
+                    <SelectItem value="admin">Администратор</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 

@@ -1,1 +1,6 @@
-{}
+{
+  "clients": "https://functions.poehali.dev/38905dcd-16a6-4e12-a777-273ac686d65d",
+  "employees": "https://functions.poehali.dev/0e9c4f82-7ee1-4be0-9001-c56162996ffa",
+  "vehicles": "https://functions.poehali.dev/33390ee1-85e0-4e3a-a705-e76898997167",
+  "auth": "https://functions.poehali.dev/d7de3fd7-3f9a-414d-a3bc-3702fff6a405"
+}

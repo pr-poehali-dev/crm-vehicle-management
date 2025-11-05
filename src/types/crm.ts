@@ -52,6 +52,7 @@ export interface Employee {
   middleName: string;
   birthDate: string;
   position: string;
+  role?: 'admin' | 'manager';
   username?: string;
   password?: string;
   permissions?: EmployeePermissions;
