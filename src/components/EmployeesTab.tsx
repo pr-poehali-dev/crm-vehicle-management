@@ -33,6 +33,7 @@ const EmployeesTab = ({
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [deleteEmployeeId, setDeleteEmployeeId] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showEditPassword, setShowEditPassword] = useState(false);
 
   const copyCredentials = () => {
     if (newEmployee.username && newEmployee.password) {
@@ -310,6 +311,85 @@ const EmployeesTab = ({
                   />
                 </div>
               </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-username">Логин</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="edit-username"
+                      value={editingEmployee.username || ''}
+                      onChange={(e) => setEditingEmployee({ ...editingEmployee, username: e.target.value })}
+                      placeholder="i.ivanov"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        if (editingEmployee.firstName && editingEmployee.lastName) {
+                          const username = `${editingEmployee.firstName[0].toLowerCase()}.${editingEmployee.lastName.toLowerCase()}`;
+                          setEditingEmployee({ ...editingEmployee, username });
+                        }
+                      }}
+                    >
+                      <Icon name="Sparkles" size={18} />
+                    </Button>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-password">Пароль</Label>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <Input
+                        id="edit-password"
+                        type={showEditPassword ? "text" : "password"}
+                        value={editingEmployee.password || ''}
+                        onChange={(e) => setEditingEmployee({ ...editingEmployee, password: e.target.value })}
+                        placeholder="Новый пароль"
+                        className="pr-10"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                        onClick={() => setShowEditPassword(!showEditPassword)}
+                      >
+                        <Icon name={showEditPassword ? "EyeOff" : "Eye"} size={18} className="text-muted-foreground" />
+                      </Button>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        const password = Math.random().toString(36).slice(-8);
+                        setEditingEmployee({ ...editingEmployee, password });
+                      }}
+                    >
+                      <Icon name="Sparkles" size={18} />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {editingEmployee.username && editingEmployee.password && (
+                <Button 
+                  type="button"
+                  variant="secondary" 
+                  onClick={() => {
+                    const text = `Логин: ${editingEmployee.username}\nПароль: ${editingEmployee.password}`;
+                    navigator.clipboard.writeText(text);
+                    toast({
+                      title: "Скопировано!",
+                      description: "Логин и пароль скопированы в буфер обмена",
+                    });
+                  }} 
+                  className="w-full gap-2"
+                >
+                  <Icon name="Copy" size={18} />
+                  Скопировать логин и пароль
+                </Button>
+              )}
 
               <Button onClick={handleUpdateClick} className="w-full">
                 Сохранить изменения
