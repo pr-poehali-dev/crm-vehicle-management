@@ -29,18 +29,6 @@ const Sidebar = ({ userRole, userName, userPosition, activeTab, onTabChange, onL
       
       <nav className="p-4 space-y-2 flex-1">
         <button
-          onClick={() => onTabChange('dashboard')}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-            activeTab === 'dashboard' 
-              ? 'bg-sidebar-accent text-sidebar-accent-foreground' 
-              : 'hover:bg-sidebar-accent/50'
-          }`}
-        >
-          <Icon name="LayoutDashboard" size={20} />
-          <span className="font-medium">Дашборд</span>
-        </button>
-        
-        <button
           onClick={() => onTabChange('vehicles')}
           className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
             activeTab === 'vehicles' 
@@ -87,20 +75,6 @@ const Sidebar = ({ userRole, userName, userPosition, activeTab, onTabChange, onL
           <Icon name="FileText" size={20} />
           <span className="font-medium">Договора</span>
         </button>
-
-        {userRole === 'admin' && (
-          <button
-            onClick={() => onTabChange('users')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-              activeTab === 'users' 
-                ? 'bg-sidebar-accent text-sidebar-accent-foreground' 
-                : 'hover:bg-sidebar-accent/50'
-            }`}
-          >
-            <Icon name="Settings" size={20} />
-            <span className="font-medium">Пользователи</span>
-          </button>
-        )}
       </nav>
 
       <div className="p-4 mt-auto space-y-2">

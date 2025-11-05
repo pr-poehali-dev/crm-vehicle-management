@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import Icon from '@/components/ui/icon';
 import LoginForm from '@/components/LoginForm';
 import Sidebar from '@/components/Sidebar';
-import Dashboard from '@/components/Dashboard';
 import VehiclesTab from '@/components/VehiclesTab';
 import ClientsTab from '@/components/ClientsTab';
 import EmployeesTab from '@/components/EmployeesTab';
@@ -15,7 +12,7 @@ const Index = () => {
   const [userRole, setUserRole] = useState<'admin' | 'manager'>('manager');
   const [userName, setUserName] = useState('');
   const [userPosition, setUserPosition] = useState('');
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('vehicles');
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     const saved = localStorage.getItem('crm-theme');
     return (saved === 'light' || saved === 'dark') ? saved : 'dark';
@@ -257,10 +254,6 @@ const Index = () => {
         />
 
         <main className="flex-1 p-8">
-          {activeTab === 'dashboard' && (
-            <Dashboard vehiclesCount={vehicles.length} clientsCount={clients.length} />
-          )}
-
           {activeTab === 'vehicles' && (
             <VehiclesTab
               vehicles={vehicles}
@@ -307,26 +300,6 @@ const Index = () => {
                 icon="FileText"
                 title="Раздел в разработке"
                 description="Функционал работы с договорами будет доступен в следующих версиях системы"
-              />
-            </div>
-          )}
-
-          {activeTab === 'users' && userRole === 'admin' && (
-            <div className="space-y-6 animate-fade-in">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-3xl font-bold tracking-tight">Пользователи</h2>
-                  <p className="text-muted-foreground">Управление доступом к системе</p>
-                </div>
-                <Button className="gap-2">
-                  <Icon name="Plus" size={18} />
-                  Добавить пользователя
-                </Button>
-              </div>
-              <EmptyState
-                icon="Users"
-                title="Раздел в разработке"
-                description="Управление пользователями будет доступно в следующих версиях системы"
               />
             </div>
           )}
