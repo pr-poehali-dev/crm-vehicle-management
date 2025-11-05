@@ -81,7 +81,7 @@ const Index = () => {
   };
 
   if (!isLoggedIn) {
-    return <LoginForm onLogin={handleLogin} onRoleChange={setUserRole} />;
+    return <LoginForm onLogin={handleLogin} />;
   }
 
   return (
