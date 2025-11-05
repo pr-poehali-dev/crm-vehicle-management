@@ -6,7 +6,7 @@
       "path": "/",
       "body": {
         "username": "admin",
-        "password": "admin123"
+        "password": "Admin2025!Secure"
       },
       "expectedStatus": 200,
       "expectedBody": {
@@ -16,27 +16,26 @@
       "bodyMatcher": "partial"
     },
     {
-      "name": "Valid manager login",
+      "name": "Invalid credentials - wrong password",
       "method": "POST",
       "path": "/",
       "body": {
-        "username": "manager",
-        "password": "manager123"
+        "username": "admin",
+        "password": "wrongpassword"
       },
-      "expectedStatus": 200,
+      "expectedStatus": 401,
       "expectedBody": {
-        "username": "manager",
-        "role": "manager"
+        "error": "Invalid credentials"
       },
       "bodyMatcher": "partial"
     },
     {
-      "name": "Invalid credentials",
+      "name": "Invalid credentials - non-existent user",
       "method": "POST",
       "path": "/",
       "body": {
-        "username": "invalid",
-        "password": "wrong"
+        "username": "hacker",
+        "password": "hack123"
       },
       "expectedStatus": 401,
       "expectedBody": {

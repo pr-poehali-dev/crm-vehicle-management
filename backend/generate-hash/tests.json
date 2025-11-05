@@ -1,0 +1,17 @@
+{
+  "tests": [
+    {
+      "name": "Generate hash for password",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "password": "Admin2025!Secure"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "hash": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
