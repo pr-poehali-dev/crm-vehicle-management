@@ -4,6 +4,8 @@ import Icon from '@/components/ui/icon';
 
 interface SidebarProps {
   userRole: 'admin' | 'manager';
+  userName: string;
+  userPosition: string;
   activeTab: string;
   onTabChange: (tab: string) => void;
   onLogout: () => void;
@@ -11,20 +13,15 @@ interface SidebarProps {
   onThemeChange: (theme: 'dark' | 'light') => void;
 }
 
-const Sidebar = ({ userRole, activeTab, onTabChange, onLogout, theme, onThemeChange }: SidebarProps) => {
+const Sidebar = ({ userRole, userName, userPosition, activeTab, onTabChange, onLogout, theme, onThemeChange }: SidebarProps) => {
   return (
     <aside className="w-64 min-h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border flex flex-col">
       <div className="p-6 border-b border-sidebar-border">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-sidebar-primary rounded-lg">
-            <Icon name="Car" size={24} className="text-sidebar-primary-foreground" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold">CRM Автопарк</h1>
-            <Badge variant="outline" className="mt-1 text-xs border-sidebar-accent text-sidebar-foreground">
-              {userRole === 'admin' ? 'Администратор' : 'Менеджер'}
-            </Badge>
-          </div>
+        <div>
+          <h1 className="text-xl font-bold">{userName || 'Пользователь'}</h1>
+          <Badge variant="outline" className="mt-1 text-xs border-sidebar-accent text-sidebar-foreground">
+            {userPosition || 'Менеджер'}
+          </Badge>
         </div>
       </div>
       

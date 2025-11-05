@@ -13,6 +13,8 @@ import { Vehicle, Client, Employee } from '@/types/crm';
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<'admin' | 'manager'>('manager');
+  const [userName, setUserName] = useState('');
+  const [userPosition, setUserPosition] = useState('');
   const [activeTab, setActiveTab] = useState('dashboard');
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     const saved = localStorage.getItem('crm-theme');
@@ -73,9 +75,29 @@ const Index = () => {
     }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoggedIn(true);
+    const form = e.target as HTMLFormElement;
+    const username = (form.querySelector('#login') as HTMLInputElement).value;
+    const password = (form.querySelector('#password') as HTMLInputElement).value;
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/4e1b7e9e-6d98-4f0e-b3ab-18f3821e6fd6', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setUserRole(userData.role);
+        setUserName(userData.full_name);
+        setUserPosition(userData.role === 'admin' ? 'Администратор' : 'Менеджер');
+        setIsLoggedIn(true);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   };
 
   const handleAddVehicle = async () => {
@@ -225,6 +247,8 @@ const Index = () => {
       <div className="flex">
         <Sidebar
           userRole={userRole}
+          userName={userName}
+          userPosition={userPosition}
           activeTab={activeTab}
           onTabChange={setActiveTab}
           onLogout={() => setIsLoggedIn(false)}
