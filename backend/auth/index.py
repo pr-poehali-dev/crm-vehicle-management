@@ -8,7 +8,6 @@ Returns: HTTP response with user data and role or error message
 import json
 import psycopg2
 import os
-import bcrypt
 from typing import Dict, Any
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
@@ -59,31 +58,13 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     cur = conn.cursor()
     
     cur.execute(
-        "SELECT id, username, role, full_name, password_hash FROM users WHERE username = %s",
-        (username,)
+        "SELECT id, username, role, full_name, password_hash FROM users WHERE username = %s AND password_hash = %s",
+        (username, password)
     )
     
     user = cur.fetchone()
     
     if not user:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 401,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            'body': json.dumps({'error': 'Invalid credentials'}),
-            'isBase64Encoded': False
-        }
-    
-    stored_hash = user[4]
-    
-    password_bytes = password.encode('utf-8')
-    stored_hash_bytes = stored_hash.encode('utf-8') if isinstance(stored_hash, str) else stored_hash
-    
-    if not bcrypt.checkpw(password_bytes, stored_hash_bytes):
         cur.close()
         conn.close()
         return {
