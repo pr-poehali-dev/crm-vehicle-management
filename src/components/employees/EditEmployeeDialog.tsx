@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
-import { Employee } from '@/types/crm';
+import { Employee, EmployeePermissions } from '@/types/crm';
 import { toast } from '@/hooks/use-toast';
 
 interface EditEmployeeDialogProps {
@@ -23,6 +24,17 @@ const EditEmployeeDialog = ({
   onUpdateClick 
 }: EditEmployeeDialogProps) => {
   const [showEditPassword, setShowEditPassword] = useState(false);
+
+  const permissions: EmployeePermissions = editingEmployee?.permissions || {};
+
+  const updatePermission = (key: keyof EmployeePermissions, value: boolean) => {
+    if (editingEmployee) {
+      onEmployeeChange({
+        ...editingEmployee,
+        permissions: { ...permissions, [key]: value }
+      });
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -157,6 +169,124 @@ const EditEmployeeDialog = ({
                 Скопировать логин и пароль
               </Button>
             )}
+
+            <div className="space-y-4 pt-4 border-t">
+              <Label className="text-base font-semibold">Права доступа</Label>
+              
+              <div className="space-y-3">
+                <div className="font-medium">Автомобили</div>
+                <div className="grid grid-cols-2 gap-3 pl-4">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-vehicles_add" 
+                      checked={permissions.vehicles_add}
+                      onCheckedChange={(checked) => updatePermission('vehicles_add', checked as boolean)}
+                    />
+                    <label htmlFor="edit-vehicles_add" className="text-sm cursor-pointer">Добавлять</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-vehicles_edit" 
+                      checked={permissions.vehicles_edit}
+                      onCheckedChange={(checked) => updatePermission('vehicles_edit', checked as boolean)}
+                    />
+                    <label htmlFor="edit-vehicles_edit" className="text-sm cursor-pointer">Редактировать</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-vehicles_delete" 
+                      checked={permissions.vehicles_delete}
+                      onCheckedChange={(checked) => updatePermission('vehicles_delete', checked as boolean)}
+                    />
+                    <label htmlFor="edit-vehicles_delete" className="text-sm cursor-pointer">Удалять</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-vehicles_hide" 
+                      checked={permissions.vehicles_hide}
+                      onCheckedChange={(checked) => updatePermission('vehicles_hide', checked as boolean)}
+                    />
+                    <label htmlFor="edit-vehicles_hide" className="text-sm cursor-pointer">Скрыть вкладку</label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="font-medium">Клиенты</div>
+                <div className="grid grid-cols-2 gap-3 pl-4">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-clients_add" 
+                      checked={permissions.clients_add}
+                      onCheckedChange={(checked) => updatePermission('clients_add', checked as boolean)}
+                    />
+                    <label htmlFor="edit-clients_add" className="text-sm cursor-pointer">Добавлять</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-clients_edit" 
+                      checked={permissions.clients_edit}
+                      onCheckedChange={(checked) => updatePermission('clients_edit', checked as boolean)}
+                    />
+                    <label htmlFor="edit-clients_edit" className="text-sm cursor-pointer">Редактировать</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-clients_delete" 
+                      checked={permissions.clients_delete}
+                      onCheckedChange={(checked) => updatePermission('clients_delete', checked as boolean)}
+                    />
+                    <label htmlFor="edit-clients_delete" className="text-sm cursor-pointer">Удалять</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-clients_hide" 
+                      checked={permissions.clients_hide}
+                      onCheckedChange={(checked) => updatePermission('clients_hide', checked as boolean)}
+                    />
+                    <label htmlFor="edit-clients_hide" className="text-sm cursor-pointer">Скрыть вкладку</label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="font-medium">Сотрудники</div>
+                <div className="grid grid-cols-2 gap-3 pl-4">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-employees_add" 
+                      checked={permissions.employees_add}
+                      onCheckedChange={(checked) => updatePermission('employees_add', checked as boolean)}
+                    />
+                    <label htmlFor="edit-employees_add" className="text-sm cursor-pointer">Добавлять</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-employees_edit" 
+                      checked={permissions.employees_edit}
+                      onCheckedChange={(checked) => updatePermission('employees_edit', checked as boolean)}
+                    />
+                    <label htmlFor="edit-employees_edit" className="text-sm cursor-pointer">Редактировать</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-employees_delete" 
+                      checked={permissions.employees_delete}
+                      onCheckedChange={(checked) => updatePermission('employees_delete', checked as boolean)}
+                    />
+                    <label htmlFor="edit-employees_delete" className="text-sm cursor-pointer">Удалять</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="edit-employees_hide" 
+                      checked={permissions.employees_hide}
+                      onCheckedChange={(checked) => updatePermission('employees_hide', checked as boolean)}
+                    />
+                    <label htmlFor="edit-employees_hide" className="text-sm cursor-pointer">Скрыть вкладку</label>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <Button onClick={onUpdateClick} className="w-full">
               Сохранить изменения
