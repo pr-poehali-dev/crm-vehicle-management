@@ -16,9 +16,9 @@ const Dashboard = ({ vehiclesCount, clientsCount }: DashboardProps) => {
   ];
 
   const categoryData = [
-    { name: 'Легковой', value: 15, color: '#8B5CF6' },
-    { name: 'Грузовой', value: 8, color: '#0EA5E9' },
-    { name: 'Специальный', value: 4, color: '#F97316' }
+    { name: 'Легковой', value: 15, color: '#FBBF24' },
+    { name: 'Грузовой', value: 8, color: '#F59E0B' },
+    { name: 'Специальный', value: 4, color: '#D97706' }
   ];
 
   return (
@@ -43,7 +43,7 @@ const Dashboard = ({ vehiclesCount, clientsCount }: DashboardProps) => {
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Всего клиентов</CardTitle>
-            <Icon name="Users" className="text-blue-600" size={20} />
+            <Icon name="Users" className="text-primary" size={20} />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{clientsCount}</div>
@@ -54,7 +54,7 @@ const Dashboard = ({ vehiclesCount, clientsCount }: DashboardProps) => {
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Активные договора</CardTitle>
-            <Icon name="FileText" className="text-orange-600" size={20} />
+            <Icon name="FileText" className="text-primary" size={20} />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">0</div>
@@ -72,11 +72,11 @@ const Dashboard = ({ vehiclesCount, clientsCount }: DashboardProps) => {
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={vehiclesByYear}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                 <XAxis dataKey="year" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="count" fill="#8B5CF6" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="count" fill="#FBBF24" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

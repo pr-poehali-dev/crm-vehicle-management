@@ -12,11 +12,11 @@ interface LoginFormProps {
 
 const LoginForm = ({ onLogin, onRoleChange }: LoginFormProps) => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10">
-      <Card className="w-full max-w-md shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-background">
+      <Card className="w-full max-w-md shadow-2xl border-primary/20">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
-            <div className="p-3 bg-primary/10 rounded-xl">
+            <div className="p-3 bg-primary/20 rounded-xl">
               <Icon name="Car" size={40} className="text-primary" />
             </div>
           </div>
