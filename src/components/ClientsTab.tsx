@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,9 +15,25 @@ interface ClientsTabProps {
   onClientChange: (client: Partial<Client>) => void;
   onAddClient: () => void;
   onDeleteClient: (id: string) => void;
+  onUpdateClient: (id: string, client: Client) => void;
 }
 
-const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient, onDeleteClient }: ClientsTabProps) => {
+const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient, onDeleteClient, onUpdateClient }: ClientsTabProps) => {
+  const [editingClient, setEditingClient] = useState<Client | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+  const handleEditClick = (client: Client) => {
+    setEditingClient({ ...client });
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdateClick = () => {
+    if (editingClient) {
+      onUpdateClient(editingClient.id, editingClient);
+      setIsEditDialogOpen(false);
+      setEditingClient(null);
+    }
+  };
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
@@ -156,13 +173,22 @@ const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient,
                   <TableCell>{client.phone}</TableCell>
                   {userRole === 'admin' && (
                     <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => onDeleteClient(client.id)}
-                      >
-                        <Icon name="Trash2" size={16} className="text-destructive" />
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleEditClick(client)}
+                        >
+                          <Icon name="Pencil" size={16} />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => onDeleteClient(client.id)}
+                        >
+                          <Icon name="Trash2" size={16} className="text-destructive" />
+                        </Button>
+                      </div>
                     </TableCell>
                   )}
                 </TableRow>
@@ -171,6 +197,102 @@ const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient,
           </Table>
         </CardContent>
       </Card>
+
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Редактировать клиента</DialogTitle>
+            <DialogDescription>Измените информацию о клиенте</DialogDescription>
+          </DialogHeader>
+          {editingClient && (
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label>Фамилия</Label>
+                  <Input
+                    value={editingClient.lastName}
+                    onChange={(e) => setEditingClient({...editingClient, lastName: e.target.value})}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Имя</Label>
+                  <Input
+                    value={editingClient.firstName}
+                    onChange={(e) => setEditingClient({...editingClient, firstName: e.target.value})}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Отчество</Label>
+                  <Input
+                    value={editingClient.middleName}
+                    onChange={(e) => setEditingClient({...editingClient, middleName: e.target.value})}
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Дата рождения</Label>
+                <Input
+                  type="date"
+                  value={editingClient.birthDate}
+                  onChange={(e) => setEditingClient({...editingClient, birthDate: e.target.value})}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Паспорт серия</Label>
+                  <Input
+                    value={editingClient.passportSeries}
+                    onChange={(e) => setEditingClient({...editingClient, passportSeries: e.target.value})}
+                    maxLength={4}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Паспорт номер</Label>
+                  <Input
+                    value={editingClient.passportNumber}
+                    onChange={(e) => setEditingClient({...editingClient, passportNumber: e.target.value})}
+                    maxLength={6}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Водительские права серия</Label>
+                  <Input
+                    value={editingClient.licenseSeries}
+                    onChange={(e) => setEditingClient({...editingClient, licenseSeries: e.target.value})}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Водительские права номер</Label>
+                  <Input
+                    value={editingClient.licenseNumber}
+                    onChange={(e) => setEditingClient({...editingClient, licenseNumber: e.target.value})}
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Дата выдачи прав</Label>
+                <Input
+                  type="date"
+                  value={editingClient.licenseDate}
+                  onChange={(e) => setEditingClient({...editingClient, licenseDate: e.target.value})}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Номер телефона</Label>
+                <Input
+                  value={editingClient.phone}
+                  onChange={(e) => setEditingClient({...editingClient, phone: e.target.value})}
+                />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button onClick={handleUpdateClick}>Сохранить изменения</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

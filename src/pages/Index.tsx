@@ -101,8 +101,16 @@ const Index = () => {
     setVehicles(vehicles.filter(v => v.id !== id));
   };
 
+  const handleUpdateVehicle = (id: string, updatedVehicle: Vehicle) => {
+    setVehicles(vehicles.map(v => v.id === id ? updatedVehicle : v));
+  };
+
   const handleDeleteClient = (id: string) => {
     setClients(clients.filter(c => c.id !== id));
+  };
+
+  const handleUpdateClient = (id: string, updatedClient: Client) => {
+    setClients(clients.map(c => c.id === id ? updatedClient : c));
   };
 
   const handleAddEmployee = () => {
@@ -149,6 +157,7 @@ const Index = () => {
               onVehicleChange={setNewVehicle}
               onAddVehicle={handleAddVehicle}
               onDeleteVehicle={handleDeleteVehicle}
+              onUpdateVehicle={handleUpdateVehicle}
             />
           )}
 
@@ -160,6 +169,7 @@ const Index = () => {
               onClientChange={setNewClient}
               onAddClient={handleAddClient}
               onDeleteClient={handleDeleteClient}
+              onUpdateClient={handleUpdateClient}
             />
           )}
 
