@@ -29,3 +29,12 @@ export interface Client {
   licenseDate: string;
   phone: string;
 }
+
+export interface Employee {
+  id: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  birthDate: string;
+  position: string;
+}

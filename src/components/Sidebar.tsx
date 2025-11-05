@@ -66,6 +66,18 @@ const Sidebar = ({ userRole, activeTab, onTabChange, onLogout, theme, onThemeCha
         </button>
         
         <button
+          onClick={() => onTabChange('employees')}
+          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+            activeTab === 'employees' 
+              ? 'bg-sidebar-accent text-sidebar-accent-foreground' 
+              : 'hover:bg-sidebar-accent/50'
+          }`}
+        >
+          <Icon name="Briefcase" size={20} />
+          <span className="font-medium">Сотрудники</span>
+        </button>
+        
+        <button
           onClick={() => onTabChange('contracts')}
           className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
             activeTab === 'contracts' 

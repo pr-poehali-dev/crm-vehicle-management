@@ -6,8 +6,9 @@ import Sidebar from '@/components/Sidebar';
 import Dashboard from '@/components/Dashboard';
 import VehiclesTab from '@/components/VehiclesTab';
 import ClientsTab from '@/components/ClientsTab';
+import EmployeesTab from '@/components/EmployeesTab';
 import EmptyState from '@/components/EmptyState';
-import { Vehicle, Client } from '@/types/crm';
+import { Vehicle, Client, Employee } from '@/types/crm';
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -62,8 +63,20 @@ const Index = () => {
     }
   ]);
 
+  const [employees, setEmployees] = useState<Employee[]>([
+    {
+      id: '1',
+      lastName: 'Петров',
+      firstName: 'Петр',
+      middleName: 'Петрович',
+      birthDate: '1990-03-20',
+      position: 'Менеджер'
+    }
+  ]);
+
   const [newVehicle, setNewVehicle] = useState<Partial<Vehicle>>({});
   const [newClient, setNewClient] = useState<Partial<Client>>({});
+  const [newEmployee, setNewEmployee] = useState<Partial<Employee>>({});
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,6 +103,17 @@ const Index = () => {
 
   const handleDeleteClient = (id: string) => {
     setClients(clients.filter(c => c.id !== id));
+  };
+
+  const handleAddEmployee = () => {
+    if (newEmployee.lastName && newEmployee.firstName) {
+      setEmployees([...employees, { ...newEmployee, id: Date.now().toString() } as Employee]);
+      setNewEmployee({});
+    }
+  };
+
+  const handleDeleteEmployee = (id: string) => {
+    setEmployees(employees.filter(e => e.id !== id));
   };
 
   if (!isLoggedIn) {
@@ -132,6 +156,17 @@ const Index = () => {
               onClientChange={setNewClient}
               onAddClient={handleAddClient}
               onDeleteClient={handleDeleteClient}
+            />
+          )}
+
+          {activeTab === 'employees' && (
+            <EmployeesTab
+              employees={employees}
+              newEmployee={newEmployee}
+              userRole={userRole}
+              onEmployeeChange={setNewEmployee}
+              onAddEmployee={handleAddEmployee}
+              onDeleteEmployee={handleDeleteEmployee}
             />
           )}
 
