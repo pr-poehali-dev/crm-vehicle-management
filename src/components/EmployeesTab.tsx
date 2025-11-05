@@ -8,6 +8,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import Icon from '@/components/ui/icon';
 import { Employee } from '@/types/crm';
+import { toast } from '@/hooks/use-toast';
 
 interface EmployeesTabProps {
   employees: Employee[];
@@ -37,6 +38,10 @@ const EmployeesTab = ({
     if (newEmployee.username && newEmployee.password) {
       const text = `Логин: ${newEmployee.username}\nПароль: ${newEmployee.password}`;
       navigator.clipboard.writeText(text);
+      toast({
+        title: "Скопировано!",
+        description: "Логин и пароль скопированы в буфер обмена",
+      });
     }
   };
 
