@@ -13,13 +13,17 @@ const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<'admin' | 'manager'>('manager');
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    const saved = localStorage.getItem('crm-theme');
+    return (saved === 'light' || saved === 'dark') ? saved : 'dark';
+  });
 
   useEffect(() => {
     document.documentElement.classList.remove('dark', 'light');
     if (theme === 'light') {
       document.documentElement.classList.add('light');
     }
+    localStorage.setItem('crm-theme', theme);
   }, [theme]);
 
   const [vehicles, setVehicles] = useState<Vehicle[]>([
