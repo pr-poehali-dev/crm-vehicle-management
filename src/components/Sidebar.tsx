@@ -16,14 +16,16 @@ interface SidebarProps {
 const Sidebar = ({ userRole, userName, userPosition, activeTab, onTabChange, onLogout, theme, onThemeChange }: SidebarProps) => {
   return (
     <aside className="w-64 min-h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border flex flex-col">
-      <div className="p-6 border-b border-sidebar-border">
-        <div>
-          <h1 className="text-xl font-bold">{userName || 'Пользователь'}</h1>
-          <Badge variant="outline" className="mt-1 text-xs border-sidebar-accent text-sidebar-foreground">
-            {userPosition || 'Менеджер'}
-          </Badge>
+      {userName !== 'Главный администратор' && (
+        <div className="p-6 border-b border-sidebar-border">
+          <div>
+            <h1 className="text-xl font-bold">{userName || 'Пользователь'}</h1>
+            <Badge variant="outline" className="mt-1 text-xs border-sidebar-accent text-sidebar-foreground">
+              {userPosition || 'Менеджер'}
+            </Badge>
+          </div>
         </div>
-      </div>
+      )}
       
       <nav className="p-4 space-y-2 flex-1">
         <button
