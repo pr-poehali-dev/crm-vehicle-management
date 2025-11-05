@@ -30,6 +30,21 @@ export interface Client {
   phone: string;
 }
 
+export interface EmployeePermissions {
+  vehicles_add?: boolean;
+  vehicles_edit?: boolean;
+  vehicles_delete?: boolean;
+  vehicles_hide?: boolean;
+  clients_add?: boolean;
+  clients_edit?: boolean;
+  clients_delete?: boolean;
+  clients_hide?: boolean;
+  employees_add?: boolean;
+  employees_edit?: boolean;
+  employees_delete?: boolean;
+  employees_hide?: boolean;
+}
+
 export interface Employee {
   id: string;
   lastName: string;
@@ -39,4 +54,5 @@ export interface Employee {
   position: string;
   username?: string;
   password?: string;
+  permissions?: EmployeePermissions;
 }

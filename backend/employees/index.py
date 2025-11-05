@@ -32,7 +32,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     
     if method == 'GET':
         cur.execute("""
-            SELECT id, last_name, first_name, middle_name, birth_date, position
+            SELECT id, last_name, first_name, middle_name, birth_date, position, permissions
             FROM employees
             ORDER BY id DESC
         """)
@@ -45,7 +45,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'firstName': row[2],
                 'middleName': row[3],
                 'birthDate': row[4].isoformat() if row[4] else '',
-                'position': row[5]
+                'position': row[5],
+                'permissions': row[6] if row[6] else {}
             })
         
         cur.close()
@@ -64,16 +65,19 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     if method == 'POST':
         body_data = json.loads(event.get('body', '{}'))
         
+        permissions = json.dumps(body_data.get('permissions', {}))
+        
         cur.execute("""
-            INSERT INTO employees (last_name, first_name, middle_name, birth_date, position)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO employees (last_name, first_name, middle_name, birth_date, position, permissions)
+            VALUES (%s, %s, %s, %s, %s, %s)
             RETURNING id
         """, (
             body_data.get('lastName'),
             body_data.get('firstName'),
             body_data.get('middleName'),
             body_data.get('birthDate'),
-            body_data.get('position')
+            body_data.get('position'),
+            permissions
         ))
         
         employee_id = cur.fetchone()[0]
@@ -106,10 +110,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         body_data = json.loads(event.get('body', '{}'))
         employee_id = body_data.get('id')
         
+        permissions = json.dumps(body_data.get('permissions', {}))
+        
         cur.execute("""
             UPDATE employees 
             SET last_name = %s, first_name = %s, middle_name = %s, 
-                birth_date = %s, position = %s
+                birth_date = %s, position = %s, permissions = %s
             WHERE id = %s
         """, (
             body_data.get('lastName'),
@@ -117,6 +123,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             body_data.get('middleName'),
             body_data.get('birthDate'),
             body_data.get('position'),
+            permissions,
             employee_id
         ))
         

@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
 import { Employee } from '@/types/crm';
 import { toast } from '@/hooks/use-toast';
@@ -203,6 +204,162 @@ const EmployeesTab = ({
                 </Button>
               )}
 
+              <div className="space-y-4 pt-4 border-t">
+                <h3 className="font-semibold">Права доступа</h3>
+                
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="text-sm font-medium mb-2">Автомобили</h4>
+                    <div className="space-y-2 pl-4">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="vehicles_add" 
+                          checked={newEmployee.permissions?.vehicles_add || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, vehicles_add: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="vehicles_add" className="text-sm font-normal">Добавлять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="vehicles_edit" 
+                          checked={newEmployee.permissions?.vehicles_edit || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, vehicles_edit: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="vehicles_edit" className="text-sm font-normal">Редактировать</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="vehicles_delete" 
+                          checked={newEmployee.permissions?.vehicles_delete || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, vehicles_delete: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="vehicles_delete" className="text-sm font-normal">Удалять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="vehicles_hide" 
+                          checked={newEmployee.permissions?.vehicles_hide || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, vehicles_hide: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="vehicles_hide" className="text-sm font-normal">Скрыть вкладку</Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium mb-2">Клиенты</h4>
+                    <div className="space-y-2 pl-4">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="clients_add" 
+                          checked={newEmployee.permissions?.clients_add || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, clients_add: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="clients_add" className="text-sm font-normal">Добавлять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="clients_edit" 
+                          checked={newEmployee.permissions?.clients_edit || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, clients_edit: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="clients_edit" className="text-sm font-normal">Редактировать</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="clients_delete" 
+                          checked={newEmployee.permissions?.clients_delete || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, clients_delete: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="clients_delete" className="text-sm font-normal">Удалять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="clients_hide" 
+                          checked={newEmployee.permissions?.clients_hide || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, clients_hide: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="clients_hide" className="text-sm font-normal">Скрыть вкладку</Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium mb-2">Сотрудники</h4>
+                    <div className="space-y-2 pl-4">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="employees_add" 
+                          checked={newEmployee.permissions?.employees_add || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, employees_add: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="employees_add" className="text-sm font-normal">Добавлять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="employees_edit" 
+                          checked={newEmployee.permissions?.employees_edit || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, employees_edit: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="employees_edit" className="text-sm font-normal">Редактировать</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="employees_delete" 
+                          checked={newEmployee.permissions?.employees_delete || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, employees_delete: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="employees_delete" className="text-sm font-normal">Удалять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="employees_hide" 
+                          checked={newEmployee.permissions?.employees_hide || false}
+                          onCheckedChange={(checked) => onEmployeeChange({ 
+                            ...newEmployee, 
+                            permissions: { ...newEmployee.permissions, employees_hide: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="employees_hide" className="text-sm font-normal">Скрыть вкладку</Label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <Button onClick={onAddEmployee} className="w-full">
                 Добавить сотрудника
               </Button>
@@ -390,6 +547,162 @@ const EmployeesTab = ({
                   Скопировать логин и пароль
                 </Button>
               )}
+
+              <div className="space-y-4 pt-4 border-t">
+                <h3 className="font-semibold">Права доступа</h3>
+                
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="text-sm font-medium mb-2">Автомобили</h4>
+                    <div className="space-y-2 pl-4">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_vehicles_add" 
+                          checked={editingEmployee.permissions?.vehicles_add || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, vehicles_add: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_vehicles_add" className="text-sm font-normal">Добавлять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_vehicles_edit" 
+                          checked={editingEmployee.permissions?.vehicles_edit || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, vehicles_edit: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_vehicles_edit" className="text-sm font-normal">Редактировать</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_vehicles_delete" 
+                          checked={editingEmployee.permissions?.vehicles_delete || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, vehicles_delete: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_vehicles_delete" className="text-sm font-normal">Удалять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_vehicles_hide" 
+                          checked={editingEmployee.permissions?.vehicles_hide || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, vehicles_hide: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_vehicles_hide" className="text-sm font-normal">Скрыть вкладку</Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium mb-2">Клиенты</h4>
+                    <div className="space-y-2 pl-4">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_clients_add" 
+                          checked={editingEmployee.permissions?.clients_add || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, clients_add: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_clients_add" className="text-sm font-normal">Добавлять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_clients_edit" 
+                          checked={editingEmployee.permissions?.clients_edit || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, clients_edit: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_clients_edit" className="text-sm font-normal">Редактировать</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_clients_delete" 
+                          checked={editingEmployee.permissions?.clients_delete || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, clients_delete: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_clients_delete" className="text-sm font-normal">Удалять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_clients_hide" 
+                          checked={editingEmployee.permissions?.clients_hide || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, clients_hide: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_clients_hide" className="text-sm font-normal">Скрыть вкладку</Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium mb-2">Сотрудники</h4>
+                    <div className="space-y-2 pl-4">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_employees_add" 
+                          checked={editingEmployee.permissions?.employees_add || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, employees_add: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_employees_add" className="text-sm font-normal">Добавлять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_employees_edit" 
+                          checked={editingEmployee.permissions?.employees_edit || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, employees_edit: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_employees_edit" className="text-sm font-normal">Редактировать</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_employees_delete" 
+                          checked={editingEmployee.permissions?.employees_delete || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, employees_delete: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_employees_delete" className="text-sm font-normal">Удалять</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="edit_employees_hide" 
+                          checked={editingEmployee.permissions?.employees_hide || false}
+                          onCheckedChange={(checked) => setEditingEmployee({ 
+                            ...editingEmployee, 
+                            permissions: { ...editingEmployee.permissions, employees_hide: checked as boolean } 
+                          })}
+                        />
+                        <Label htmlFor="edit_employees_hide" className="text-sm font-normal">Скрыть вкладку</Label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <Button onClick={handleUpdateClick} className="w-full">
                 Сохранить изменения
