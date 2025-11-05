@@ -77,6 +77,17 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         ))
         
         employee_id = cur.fetchone()[0]
+        
+        username = body_data.get('username')
+        password = body_data.get('password')
+        
+        if username and password:
+            full_name = f"{body_data.get('lastName')} {body_data.get('firstName')} {body_data.get('middleName', '')}".strip()
+            cur.execute("""
+                INSERT INTO users (username, password_hash, role, full_name)
+                VALUES (%s, %s, %s, %s)
+            """, (username, password, 'manager', full_name))
+        
         conn.commit()
         cur.close()
         conn.close()

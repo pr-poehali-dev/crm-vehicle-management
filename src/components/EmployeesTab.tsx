@@ -31,6 +31,7 @@ const EmployeesTab = ({
   const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [deleteEmployeeId, setDeleteEmployeeId] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleEditClick = (employee: Employee) => {
     setEditingEmployee({ ...employee });
@@ -114,6 +115,40 @@ const EmployeesTab = ({
                     value={newEmployee.position || ''}
                     onChange={(e) => onEmployeeChange({ ...newEmployee, position: e.target.value })}
                   />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="username">Логин</Label>
+                  <Input
+                    id="username"
+                    value={newEmployee.username || ''}
+                    onChange={(e) => onEmployeeChange({ ...newEmployee, username: e.target.value })}
+                    placeholder="Для входа в систему"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Пароль</Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      value={newEmployee.password || ''}
+                      onChange={(e) => onEmployeeChange({ ...newEmployee, password: e.target.value })}
+                      placeholder="Пароль для входа"
+                      className="pr-10"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      <Icon name={showPassword ? "EyeOff" : "Eye"} size={18} className="text-muted-foreground" />
+                    </Button>
+                  </div>
                 </div>
               </div>
 

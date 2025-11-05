@@ -37,4 +37,6 @@ export interface Employee {
   middleName: string;
   birthDate: string;
   position: string;
+  username?: string;
+  password?: string;
 }
