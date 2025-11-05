@@ -84,14 +84,13 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         
         username = body_data.get('username')
         password = body_data.get('password')
-        role = body_data.get('role', 'manager')
         
         if username and password:
             full_name = f"{body_data.get('lastName')} {body_data.get('firstName')} {body_data.get('middleName', '')}".strip()
             cur.execute("""
                 INSERT INTO users (username, password_hash, role, full_name)
                 VALUES (%s, %s, %s, %s)
-            """, (username, password, role, full_name))
+            """, (username, password, 'manager', full_name))
         
         conn.commit()
         cur.close()
@@ -130,7 +129,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         
         username = body_data.get('username')
         password = body_data.get('password')
-        role = body_data.get('role', 'manager')
         
         if username and password:
             full_name = f"{body_data.get('lastName')} {body_data.get('firstName')} {body_data.get('middleName', '')}".strip()
@@ -141,14 +139,14 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             if existing_user:
                 cur.execute("""
                     UPDATE users 
-                    SET password_hash = %s, full_name = %s, role = %s
+                    SET password_hash = %s, full_name = %s
                     WHERE username = %s
-                """, (password, full_name, role, username))
+                """, (password, full_name, username))
             else:
                 cur.execute("""
                     INSERT INTO users (username, password_hash, role, full_name)
                     VALUES (%s, %s, %s, %s)
-                """, (username, password, role, full_name))
+                """, (username, password, 'manager', full_name))
         
         conn.commit()
         cur.close()
