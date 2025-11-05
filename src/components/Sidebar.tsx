@@ -11,7 +11,7 @@ interface SidebarProps {
 
 const Sidebar = ({ userRole, activeTab, onTabChange, onLogout }: SidebarProps) => {
   return (
-    <aside className="w-64 min-h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+    <aside className="w-64 min-h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border flex flex-col">
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-sidebar-primary rounded-lg">
@@ -26,7 +26,7 @@ const Sidebar = ({ userRole, activeTab, onTabChange, onLogout }: SidebarProps) =
         </div>
       </div>
       
-      <nav className="p-4 space-y-2">
+      <nav className="p-4 space-y-2 flex-1">
         <button
           onClick={() => onTabChange('dashboard')}
           className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
@@ -90,7 +90,7 @@ const Sidebar = ({ userRole, activeTab, onTabChange, onLogout }: SidebarProps) =
         )}
       </nav>
 
-      <div className="absolute bottom-6 left-4 right-4">
+      <div className="p-4 mt-auto">
         <Button 
           variant="outline" 
           className="w-full"
