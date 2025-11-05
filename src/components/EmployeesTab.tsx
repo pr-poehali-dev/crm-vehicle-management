@@ -121,32 +121,58 @@ const EmployeesTab = ({
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="username">Логин</Label>
-                  <Input
-                    id="username"
-                    value={newEmployee.username || ''}
-                    onChange={(e) => onEmployeeChange({ ...newEmployee, username: e.target.value })}
-                    placeholder="Для входа в систему"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Пароль</Label>
-                  <div className="relative">
+                  <div className="flex gap-2">
                     <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      value={newEmployee.password || ''}
-                      onChange={(e) => onEmployeeChange({ ...newEmployee, password: e.target.value })}
-                      placeholder="Пароль для входа"
-                      className="pr-10"
+                      id="username"
+                      value={newEmployee.username || ''}
+                      onChange={(e) => onEmployeeChange({ ...newEmployee, username: e.target.value })}
+                      placeholder="i.ivanov"
                     />
                     <Button
                       type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
+                      variant="outline"
+                      onClick={() => {
+                        if (newEmployee.firstName && newEmployee.lastName) {
+                          const username = `${newEmployee.firstName[0].toLowerCase()}.${newEmployee.lastName.toLowerCase()}`;
+                          onEmployeeChange({ ...newEmployee, username });
+                        }
+                      }}
                     >
-                      <Icon name={showPassword ? "EyeOff" : "Eye"} size={18} className="text-muted-foreground" />
+                      <Icon name="Sparkles" size={18} />
+                    </Button>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Пароль</Label>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={newEmployee.password || ''}
+                        onChange={(e) => onEmployeeChange({ ...newEmployee, password: e.target.value })}
+                        placeholder="Пароль для входа"
+                        className="pr-10"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        <Icon name={showPassword ? "EyeOff" : "Eye"} size={18} className="text-muted-foreground" />
+                      </Button>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        const password = Math.random().toString(36).slice(-8);
+                        onEmployeeChange({ ...newEmployee, password });
+                      }}
+                    >
+                      <Icon name="Sparkles" size={18} />
                     </Button>
                   </div>
                 </div>
