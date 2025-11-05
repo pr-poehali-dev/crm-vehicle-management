@@ -223,7 +223,7 @@ const VehiclesTab = ({ vehicles, newVehicle, userRole, onVehicleChange, onAddVeh
                 <TableHead>Категория</TableHead>
                 <TableHead>Цвет</TableHead>
                 <TableHead>Тип двигателя</TableHead>
-                {userRole === 'admin' && <TableHead>Действия</TableHead>}
+                <TableHead>Действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -237,26 +237,24 @@ const VehiclesTab = ({ vehicles, newVehicle, userRole, onVehicleChange, onAddVeh
                   </TableCell>
                   <TableCell>{vehicle.color}</TableCell>
                   <TableCell>{vehicle.engineType}</TableCell>
-                  {userRole === 'admin' && (
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleEditClick(vehicle)}
-                        >
-                          <Icon name="Pencil" size={16} />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setDeleteVehicleId(vehicle.id)}
-                        >
-                          <Icon name="Trash2" size={16} className="text-destructive" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  )}
+                  <TableCell>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEditClick(vehicle)}
+                      >
+                        <Icon name="Pencil" size={16} />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setDeleteVehicleId(vehicle.id)}
+                      >
+                        <Icon name="Trash2" size={16} className="text-destructive" />
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -167,7 +167,7 @@ const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient,
                 <TableHead>Паспорт</TableHead>
                 <TableHead>Вод. удостоверение</TableHead>
                 <TableHead>Телефон</TableHead>
-                {userRole === 'admin' && <TableHead>Действия</TableHead>}
+                <TableHead>Действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -180,26 +180,24 @@ const ClientsTab = ({ clients, newClient, userRole, onClientChange, onAddClient,
                   <TableCell>{client.passportSeries} {client.passportNumber}</TableCell>
                   <TableCell>{client.licenseSeries} {client.licenseNumber}</TableCell>
                   <TableCell>{client.phone}</TableCell>
-                  {userRole === 'admin' && (
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleEditClick(client)}
-                        >
-                          <Icon name="Pencil" size={16} />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setDeleteClientId(client.id)}
-                        >
-                          <Icon name="Trash2" size={16} className="text-destructive" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  )}
+                  <TableCell>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEditClick(client)}
+                      >
+                        <Icon name="Pencil" size={16} />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setDeleteClientId(client.id)}
+                      >
+                        <Icon name="Trash2" size={16} className="text-destructive" />
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

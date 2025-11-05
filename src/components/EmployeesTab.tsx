@@ -136,7 +136,7 @@ const EmployeesTab = ({
                 <TableHead>ФИО</TableHead>
                 <TableHead>Дата рождения</TableHead>
                 <TableHead>Должность</TableHead>
-                {userRole === 'admin' && <TableHead className="text-right">Действия</TableHead>}
+                <TableHead className="text-right">Действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -147,26 +147,24 @@ const EmployeesTab = ({
                   </TableCell>
                   <TableCell>{new Date(employee.birthDate).toLocaleDateString('ru-RU')}</TableCell>
                   <TableCell>{employee.position}</TableCell>
-                  {userRole === 'admin' && (
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleEditClick(employee)}
-                        >
-                          <Icon name="Pencil" size={18} />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setDeleteEmployeeId(employee.id)}
-                        >
-                          <Icon name="Trash2" size={18} />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  )}
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleEditClick(employee)}
+                      >
+                        <Icon name="Pencil" size={18} />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setDeleteEmployeeId(employee.id)}
+                      >
+                        <Icon name="Trash2" size={18} />
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
