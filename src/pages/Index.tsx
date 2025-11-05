@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import LoginForm from '@/components/LoginForm';
@@ -13,6 +13,14 @@ const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<'admin' | 'manager'>('manager');
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  useEffect(() => {
+    document.documentElement.classList.remove('dark', 'light');
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
+    }
+  }, [theme]);
 
   const [vehicles, setVehicles] = useState<Vehicle[]>([
     {
@@ -92,6 +100,8 @@ const Index = () => {
           activeTab={activeTab}
           onTabChange={setActiveTab}
           onLogout={() => setIsLoggedIn(false)}
+          theme={theme}
+          onThemeChange={setTheme}
         />
 
         <main className="flex-1 p-8">

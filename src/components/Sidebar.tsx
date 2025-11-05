@@ -7,9 +7,11 @@ interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   onLogout: () => void;
+  theme: 'dark' | 'light';
+  onThemeChange: (theme: 'dark' | 'light') => void;
 }
 
-const Sidebar = ({ userRole, activeTab, onTabChange, onLogout }: SidebarProps) => {
+const Sidebar = ({ userRole, activeTab, onTabChange, onLogout, theme, onThemeChange }: SidebarProps) => {
   return (
     <aside className="w-64 min-h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border flex flex-col">
       <div className="p-6 border-b border-sidebar-border">
@@ -90,7 +92,15 @@ const Sidebar = ({ userRole, activeTab, onTabChange, onLogout }: SidebarProps) =
         )}
       </nav>
 
-      <div className="p-4 mt-auto">
+      <div className="p-4 mt-auto space-y-2">
+        <Button 
+          variant="outline" 
+          className="w-full"
+          onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
+        >
+          <Icon name={theme === 'dark' ? 'Sun' : 'Moon'} size={18} className="mr-2" />
+          {theme === 'dark' ? 'Светлая' : 'Тёмная'}
+        </Button>
         <Button 
           variant="outline" 
           className="w-full"
