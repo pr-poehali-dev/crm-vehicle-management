@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +15,7 @@ interface EmployeesTabProps {
   onEmployeeChange: (employee: Partial<Employee>) => void;
   onAddEmployee: () => void;
   onDeleteEmployee: (id: string) => void;
+  onUpdateEmployee: (id: string, employee: Employee) => void;
 }
 
 const EmployeesTab = ({ 
@@ -22,8 +24,24 @@ const EmployeesTab = ({
   userRole, 
   onEmployeeChange, 
   onAddEmployee, 
-  onDeleteEmployee 
+  onDeleteEmployee,
+  onUpdateEmployee 
 }: EmployeesTabProps) => {
+  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+  const handleEditClick = (employee: Employee) => {
+    setEditingEmployee({ ...employee });
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdateClick = () => {
+    if (editingEmployee) {
+      onUpdateEmployee(editingEmployee.id, editingEmployee);
+      setIsEditDialogOpen(false);
+      setEditingEmployee(null);
+    }
+  };
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
@@ -122,13 +140,22 @@ const EmployeesTab = ({
                   <TableCell>{employee.position}</TableCell>
                   {userRole === 'admin' && (
                     <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => onDeleteEmployee(employee.id)}
-                      >
-                        <Icon name="Trash2" size={18} />
-                      </Button>
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleEditClick(employee)}
+                        >
+                          <Icon name="Pencil" size={18} />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => onDeleteEmployee(employee.id)}
+                        >
+                          <Icon name="Trash2" size={18} />
+                        </Button>
+                      </div>
                     </TableCell>
                   )}
                 </TableRow>
@@ -137,6 +164,68 @@ const EmployeesTab = ({
           </Table>
         </CardContent>
       </Card>
+
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Редактировать сотрудника</DialogTitle>
+          </DialogHeader>
+          {editingEmployee && (
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-lastName">Фамилия</Label>
+                  <Input
+                    id="edit-lastName"
+                    value={editingEmployee.lastName}
+                    onChange={(e) => setEditingEmployee({ ...editingEmployee, lastName: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-firstName">Имя</Label>
+                  <Input
+                    id="edit-firstName"
+                    value={editingEmployee.firstName}
+                    onChange={(e) => setEditingEmployee({ ...editingEmployee, firstName: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-middleName">Отчество</Label>
+                  <Input
+                    id="edit-middleName"
+                    value={editingEmployee.middleName}
+                    onChange={(e) => setEditingEmployee({ ...editingEmployee, middleName: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-birthDate">Дата рождения</Label>
+                  <Input
+                    id="edit-birthDate"
+                    type="date"
+                    value={editingEmployee.birthDate}
+                    onChange={(e) => setEditingEmployee({ ...editingEmployee, birthDate: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-position">Должность</Label>
+                  <Input
+                    id="edit-position"
+                    value={editingEmployee.position}
+                    onChange={(e) => setEditingEmployee({ ...editingEmployee, position: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <Button onClick={handleUpdateClick} className="w-full">
+                Сохранить изменения
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

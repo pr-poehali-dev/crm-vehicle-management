@@ -116,6 +116,10 @@ const Index = () => {
     setEmployees(employees.filter(e => e.id !== id));
   };
 
+  const handleUpdateEmployee = (id: string, updatedEmployee: Employee) => {
+    setEmployees(employees.map(e => e.id === id ? updatedEmployee : e));
+  };
+
   if (!isLoggedIn) {
     return <LoginForm onLogin={handleLogin} theme={theme} onThemeChange={setTheme} />;
   }
@@ -167,6 +171,7 @@ const Index = () => {
               onEmployeeChange={setNewEmployee}
               onAddEmployee={handleAddEmployee}
               onDeleteEmployee={handleDeleteEmployee}
+              onUpdateEmployee={handleUpdateEmployee}
             />
           )}
 
