@@ -77,14 +77,29 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
+    user_id = user[0]
+    user_username = user[1]
+    user_role = user[2]
+    user_full_name = user[3]
+    
+    position = None
+    cur.execute(
+        "SELECT position FROM employees WHERE last_name || ' ' || first_name || ' ' || COALESCE(middle_name, '') = %s LIMIT 1",
+        (user_full_name.strip(),)
+    )
+    employee = cur.fetchone()
+    if employee:
+        position = employee[0]
+    
     cur.close()
     conn.close()
     
     user_data = {
-        'id': user[0],
-        'username': user[1],
-        'role': user[2],
-        'full_name': user[3]
+        'id': user_id,
+        'username': user_username,
+        'role': user_role,
+        'full_name': user_full_name,
+        'position': position
     }
     
     return {

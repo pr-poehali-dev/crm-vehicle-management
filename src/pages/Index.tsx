@@ -92,7 +92,7 @@ const Index = () => {
         const userData = await response.json();
         setUserRole(userData.role);
         setUserName(userData.full_name);
-        setUserPosition(userData.role === 'admin' ? 'Администратор' : 'Менеджер');
+        setUserPosition(userData.position || (userData.role === 'admin' ? 'Администратор' : 'Менеджер'));
         setIsLoggedIn(true);
       }
     } catch (error) {
