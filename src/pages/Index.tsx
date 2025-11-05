@@ -82,7 +82,7 @@ const Index = () => {
     const password = (form.querySelector('#password') as HTMLInputElement).value;
 
     try {
-      const response = await fetch('https://functions.poehali.dev/4e1b7e9e-6d98-4f0e-b3ab-18f3821e6fd6', {
+      const response = await fetch('https://functions.poehali.dev/d7de3fd7-3f9a-414d-a3bc-3702fff6a405', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
